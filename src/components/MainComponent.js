@@ -14,7 +14,7 @@ import Contact from './ContactComponent';
 // now the state will be obtained from my redux folder not directly
 import About from './AboutComponent';
 import {connect } from 'react-redux';
-import {postComment,fetchDishes,fetchComments, fetchPromos,fetchLeaders } from '../redux/ActionCreator';
+import {postComment,fetchDishes,fetchComments, fetchPromos,fetchLeaders,postFeedback } from '../redux/ActionCreator';
 //main component is going to contain all the components as a container component
 import { actions } from 'react-redux-form';
 import { TransitionGroup,CSSTransition} from 'react-transition-group';
@@ -37,6 +37,7 @@ const mapDispatchToProps = dispatch => ({
   fetchComments: () => dispatch(fetchComments()),
   fetchPromos: () => dispatch(fetchPromos()),
   fetchLeaders: () => dispatch(fetchLeaders()),
+  postFeedback: (values)=>dispatch(postFeedback(values))
 });
 class Main extends Component{
     constructor(props)
@@ -99,7 +100,7 @@ class Main extends Component{
           <Route path="/home" component={Homepage} />
           <Route exact path="/menu" component={()=> <Menu dishes={this.props.dishes} /> }/>
           <Route path='/menu/:dishId' component={DishWithId} />
-          <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />}/>  
+          <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback}/>}/>  
          <Route exact path="/aboutus" component={()=><About leaders={this.props.leaders.leaders}/>}/>
            <Redirect to="/home" />   
   

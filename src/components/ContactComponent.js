@@ -23,9 +23,11 @@ class Contact extends Component
      handleSubmit(values)
      {
       console.log('Current state is: '+JSON.stringify(values));
-      alert('Current state is: '+JSON.stringify(values));
+    //   alert('Current state is: '+JSON.stringify(values));
       //in order to stop the default action of the form to move to an empty page
+      this.props.postFeedback(values);
       this.props.resetFeedbackForm();
+
      }
 
      
@@ -78,6 +80,7 @@ class Contact extends Component
               <h3>Send us your Feedback</h3>
            </div>
             <div className="col-12 col-md-9">
+
                 <Form  model="feedback" onSubmit={(values)=>this.handleSubmit(values)}>
                     <Row className="form-group">
                         <Label htmlFor="firstname" md={2}>First Name</Label>
@@ -200,6 +203,7 @@ class Contact extends Component
                                 className="form-control"/>
                                 
                         </Col>
+                        
                     </Row>
                     <Row className="form-group">
                         <Col md={{size: 10, offset: 2}}>

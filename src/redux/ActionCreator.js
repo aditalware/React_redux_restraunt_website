@@ -1,7 +1,6 @@
 //Action creators for returning an action object and thunks
 
 import * as ActionTypes from './ActionTypes';
-import {DISHES} from '../shared/dishes';
 import { baseUrl } from '../shared/baseUrl';
 //to supply to dishes reducer function
 export const addComment=(comment)=>
@@ -16,9 +15,47 @@ export const addComment=(comment)=>
     payload: comment
 });
 
+export const postFeedback= (values) =>()=>{
 
+
+    const newEntry={
+     firstname:values.firstname,
+     lastname:values.lastname,
+     telnum:values.telnum,
+     email:values.email,
+     agree:values.agree,
+     contactType:values.contactType,
+     message:values.message
+    }
+    newEntry.date=new Date().toISOString();
+    // alert(JSON.stringify(newEntry));
+
+    return fetch(baseUrl + 'feedback', {
+        method: "POST",
+        body: JSON.stringify(newEntry),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+      .then(response => response.json())
+    .then(response => alert("Thanks! you for the feedback\n"+JSON.stringify(response)))//reponse is the newly added detail in form
+    .catch(error =>  { console.log('form feedback', error.message); alert('Your details could not be posted\nError: '+error.message); });
+};
 export const postComment = (dishId, rating, author, comment) => (dispatch) => {
-
+//dispatch to the store
     const newComment = {
         dishId: dishId,
         rating: rating,
